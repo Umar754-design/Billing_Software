@@ -1,0 +1,228 @@
+/* ============================================================
+   INFINITY TRADERS — Print CSS
+   Only active during browser printing
+   ============================================================ */
+
+@media screen {
+  #print-mount {
+    display: none !important;
+  }
+}
+
+@media print {
+  /* 1. Hide the entire application UI and all interactive overlays */
+  .app-wrapper,
+  .sidebar,
+  .sidebar-overlay,
+  .topbar,
+  .modal,
+  .modal-backdrop,
+  .toast-container-it,
+  #confirm-overlay,
+  .modal-header,
+  .modal-footer,
+  .btn-primary-it,
+  .btn-outline-it,
+  .btn-ghost,
+  .demo-banner,
+  .placeholder-banner,
+  button {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #111 !important;
+    font-family: 'Inter', Arial, sans-serif !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* 2. Show the dedicated print mount container */
+  #print-mount {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 8mm 6mm !important;
+    background: #fff !important;
+  }
+
+  #print-mount .invoice-container {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    page-break-after: avoid;
+    width: 100% !important;
+  }
+
+  #print-mount .invoice-header {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 20px !important;
+    border-bottom: 2px solid #2457D6 !important;
+    padding-bottom: 12px !important;
+  }
+
+  #print-mount .invoice-company h2 {
+    font-size: 24px !important;
+    font-weight: 800 !important;
+    color: #2457D6 !important;
+    margin-bottom: 4px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #print-mount .invoice-company p {
+    font-size: 11.5px !important;
+    color: #444 !important;
+    line-height: 1.5 !important;
+    margin: 0 !important;
+  }
+
+  #print-mount .invoice-meta {
+    text-align: right !important;
+  }
+
+  #print-mount .invoice-meta h3 {
+    font-size: 26px !important;
+    font-weight: 800 !important;
+    color: #14213D !important;
+    margin: 0 0 4px 0 !important;
+    letter-spacing: -0.5px !important;
+  }
+
+  #print-mount .invoice-meta p {
+    font-size: 12px !important;
+    color: #333 !important;
+    margin: 2px 0 !important;
+  }
+
+  #print-mount .invoice-meta .invoice-no {
+    color: #2457D6 !important;
+    font-weight: 700 !important;
+  }
+
+  #print-mount .invoice-divider {
+    display: none !important;
+  }
+
+  #print-mount .invoice-parties {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 20px !important;
+    margin: 16px 0 !important;
+    padding: 12px 14px !important;
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 6px !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #print-mount .invoice-party h5 {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #14213D !important;
+    margin-bottom: 5px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+  }
+
+  #print-mount .invoice-party p {
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+    color: #222 !important;
+    margin: 0 !important;
+  }
+
+  #print-mount .invoice-customer-addr {
+    font-size: 11.5px !important;
+    color: #333 !important;
+    display: inline-block !important;
+    margin-top: 2px !important;
+  }
+
+  #print-mount .invoice-items-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 18px 0 !important;
+  }
+
+  #print-mount .invoice-items-table th {
+    background: #14213D !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    font-size: 11.5px !important;
+    padding: 8px 10px !important;
+    border: 1px solid #14213D !important;
+    text-align: left !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #print-mount .invoice-items-table th:last-child,
+  #print-mount .invoice-items-table td:last-child {
+    text-align: right !important;
+  }
+
+  #print-mount .invoice-items-table td {
+    padding: 8px 10px !important;
+    border: 1px solid #e2e8f0 !important;
+    font-size: 12px !important;
+    color: #111 !important;
+  }
+
+  #print-mount .invoice-items-table tr:nth-child(even) td {
+    background: #f8fafc !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #print-mount .invoice-totals {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    margin-top: 10px !important;
+  }
+
+  #print-mount .invoice-totals .total-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    width: 270px !important;
+    padding: 3px 0 !important;
+    font-size: 12.5px !important;
+    color: #222 !important;
+  }
+
+  #print-mount .invoice-totals .total-row.grand {
+    border-top: 2px solid #2457D6 !important;
+    padding-top: 6px !important;
+    margin-top: 4px !important;
+    font-weight: 800 !important;
+    font-size: 15px !important;
+    color: #2457D6 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  #print-mount .invoice-footer-note {
+    text-align: center !important;
+    margin-top: 24px !important;
+    padding-top: 12px !important;
+    border-top: 1px dashed #cbd5e1 !important;
+    font-size: 11px !important;
+    color: #64748b !important;
+  }
+
+  table { page-break-inside: avoid; }
+  a { text-decoration: none; color: inherit; }
+
+  @page {
+    margin: 10mm;
+    size: A4 portrait;
+  }
+}

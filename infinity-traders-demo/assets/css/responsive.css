@@ -1,0 +1,128 @@
+/* ============================================================
+   INFINITY TRADERS — Responsive CSS
+   ============================================================ */
+
+/* ─── TABLET (≤1024px) ──────────────────────────────────────── */
+@media (max-width: 1024px) {
+  :root { --sidebar-w: 230px; }
+
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .sections-grid { grid-template-columns: 1fr; }
+  .sections-grid-3 { grid-template-columns: 1fr 1fr; }
+
+  .pos-layout { grid-template-columns: 1fr; }
+  .cart-panel { position: static; max-height: none; }
+
+  .topbar-search input { width: 180px; }
+  .topbar-date { display: none; }
+}
+
+/* ─── MOBILE (≤768px) ───────────────────────────────────────── */
+@media (max-width: 768px) {
+  :root { --topbar-h: 58px; }
+
+  /* Sidebar becomes off-canvas */
+  .sidebar {
+    width: var(--sidebar-w) !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100vh !important;
+    max-height: 100dvh !important;
+    transform: translateX(-100%);
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    z-index: 1050;
+  }
+  .sidebar.mobile-open {
+    transform: translateX(0);
+    box-shadow: 10px 0 35px rgba(0,0,0,0.45);
+  }
+
+  /* Main content takes full width */
+  .main-content { margin-left: 0 !important; }
+
+  /* Overlay for mobile sidebar */
+  .sidebar-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 1039;
+    display: none;
+  }
+  .sidebar-overlay.active { display: block; }
+
+  /* Page content */
+  .page-content { padding: 18px 16px 40px; }
+
+  /* KPI cards */
+  .kpi-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .kpi-value { font-size: 18px; }
+
+  /* Sections */
+  .sections-grid    { grid-template-columns: 1fr; }
+  .sections-grid-3  { grid-template-columns: 1fr; }
+
+  /* Topbar */
+  .topbar { padding: 0 16px; gap: 10px; }
+  .topbar-search { display: none; }
+  .topbar-date   { display: none; }
+  .user-name     { display: none; }
+  .topbar-title  { font-size: 14px; }
+
+  /* POS / Billing */
+  .pos-layout { grid-template-columns: 1fr; }
+  .products-grid { grid-template-columns: repeat(2, 1fr); max-height: none; }
+  .cart-panel { position: static; max-height: none; }
+
+  /* Tables - horizontal scroll */
+  .table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .it-table { min-width: 600px; }
+
+  /* Page header */
+  .page-header { flex-direction: column; align-items: flex-start; }
+  .page-header-right { align-self: stretch; }
+  .page-header-right .btn-primary-it { width: 100%; justify-content: center; }
+
+  /* Filter bar */
+  .filter-bar { flex-direction: column; }
+  .filter-bar input, .filter-bar select { min-width: unset; width: 100%; }
+
+  /* Invoice */
+  .invoice-parties { grid-template-columns: 1fr; gap: 14px; }
+  .invoice-header { flex-direction: column; gap: 16px; }
+  .invoice-meta { text-align: left; }
+
+  /* Purchase item rows */
+  .purchase-item-row { grid-template-columns: 1fr 1fr; row-gap: 8px; }
+
+  /* Quick actions */
+  .quick-actions { gap: 8px; }
+  .quick-action-btn { padding: 14px; }
+
+  /* Modal */
+  .modal-dialog { margin: 0.5rem; }
+  .modal-body { padding: 16px; }
+
+  /* Chart filter & sizing */
+  .chart-filter-group { flex-wrap: wrap; }
+  .chart-wrapper { height: 260px; }
+  .chart-wrapper.category-chart-wrapper { height: 210px; }
+
+  /* Confirm box */
+  .confirm-box { padding: 24px 16px; }
+}
+
+/* ─── SMALL MOBILE (≤480px) ─────────────────────────────────── */
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  .kpi-card { padding: 16px; }
+  .products-grid { grid-template-columns: 1fr; }
+  .sections-grid-3 { grid-template-columns: 1fr; }
+  .cart-actions { flex-direction: column; }
+  .payment-row { flex-direction: column; }
+  .amount-row { flex-direction: column; }
+  .invoice-totals .total-row { width: 100%; }
+  .quick-actions { flex-direction: column; }
+  .quick-action-btn { flex-direction: row; padding: 14px 16px; }
+  .chart-wrapper { height: 230px; }
+  .chart-wrapper.category-chart-wrapper { height: 200px; }
+}
