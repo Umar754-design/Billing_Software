@@ -66,6 +66,13 @@
           <span class="tooltip-text">Sales History</span>
         </div>
       </li>
+      <li class="nav-item">
+        <div class="nav-link-item" data-page="sales-returns" role="button" tabindex="0" aria-label="Sales Returns" title="Sales Returns">
+          <i class="bi bi-arrow-return-left nav-icon"></i>
+          <span class="nav-label">Sales Returns</span>
+          <span class="tooltip-text">Returns</span>
+        </div>
+      </li>
 
       <!-- Purchases -->
       <div class="nav-section-label">Purchases</div>
@@ -197,6 +204,213 @@
   </div><!-- /main-content -->
 </div><!-- /app-wrapper -->
 
+<!-- ─── TODAY'S CUSTOMERS MODAL ────────────────────────────── -->
+<div class="modal fade" id="today-customers-modal" tabindex="-1" aria-labelledby="today-customers-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background:linear-gradient(135deg, #1e293b, #0f172a);border-bottom:1px solid rgba(255,255,255,0.1)">
+        <div>
+          <h5 class="modal-title" id="today-customers-modal-title" style="display:flex;align-items:center;gap:8px">
+            <i class="bi bi-people-fill text-info"></i> Today's Customers
+          </h5>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px" id="today-customers-date-label"></div>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="background:#f8fafc;padding:20px">
+        <!-- Summary chips bar -->
+        <div id="today-customers-summary-bar" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px"></div>
+        <!-- Search filter -->
+        <div style="position:relative;margin-bottom:16px">
+          <i class="bi bi-search" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-muted)"></i>
+          <input type="search" id="today-cust-search" class="form-control-it" placeholder="Search today's customers by name, phone or invoice..." style="padding-left:38px">
+        </div>
+        <!-- Customer list container -->
+        <div id="today-customers-container" style="display:flex;flex-direction:column;gap:12px"></div>
+      </div>
+      <div class="modal-footer" style="background:#fff">
+        <button type="button" class="btn-ghost" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn-primary-it" onclick="navigateTo('billing'); bootstrap.Modal.getInstance(document.getElementById('today-customers-modal'))?.hide();">
+          <i class="bi bi-plus-lg"></i> New Bill / Customer
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CUSTOMER DETAILS MODAL ─────────────────────────────── -->
+<div class="modal fade" id="customer-details-modal" tabindex="-1" aria-labelledby="customer-details-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background:linear-gradient(135deg, #1e293b, #0f172a);border-bottom:1px solid rgba(255,255,255,0.1)">
+        <h5 class="modal-title" id="customer-details-modal-title" style="display:flex;align-items:center;gap:8px">
+          <i class="bi bi-person-badge text-primary"></i> Customer Details
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="customer-details-modal-body" style="padding:22px;background:#f8fafc">
+        <!-- Populated dynamically -->
+      </div>
+      <div class="modal-footer" id="customer-details-modal-footer" style="background:#fff;display:flex;justify-content:space-between">
+        <div>
+          <button type="button" class="btn-ghost" data-bs-dismiss="modal">Close</button>
+        </div>
+        <div id="cust-modal-action-btns" style="display:flex;gap:8px"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CLEAR CUSTOMER DUE MODAL ───────────────────────────── -->
+<div class="modal fade" id="clear-due-modal" tabindex="-1" aria-labelledby="clear-due-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header" style="background:linear-gradient(135deg, #059669, #047857);border-bottom:none">
+        <h5 class="modal-title" id="clear-due-modal-title" style="display:flex;align-items:center;gap:8px;color:#fff">
+          <i class="bi bi-cash-stack"></i> Clear Customer Due Payment
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="padding:22px">
+        <!-- Customer & Due Summary Box -->
+        <div style="background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px;padding:16px;margin-bottom:18px">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-weight:700;font-size:15px;color:#065f46" id="cd-customer-name">—</div>
+              <div style="font-size:12px;color:#047857;margin-top:2px" id="cd-invoice-badge">General Due Amount</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:11px;font-weight:600;color:#047857;text-transform:uppercase">Current Due</div>
+              <div style="font-size:20px;font-weight:800;color:#dc2626" id="cd-current-due">₹0.00</div>
+            </div>
+          </div>
+        </div>
+
+        <form id="clear-due-form" onsubmit="event.preventDefault(); submitClearDue();">
+          <input type="hidden" id="cd-customer-id" value="">
+          <input type="hidden" id="cd-invoice-id" value="">
+
+          <!-- Payment Amount Field -->
+          <div class="mb-3">
+            <label class="form-label" style="font-weight:600;font-size:13px">Payment Amount (₹) *</label>
+            <div style="position:relative">
+              <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);font-weight:700;color:var(--text-dark)">₹</span>
+              <input type="number" step="0.01" min="0.01" class="form-control-it" id="cd-amount" style="padding-left:32px;font-weight:700;font-size:16px" required>
+            </div>
+            <!-- Quick Amount Pills -->
+            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap" id="cd-quick-amounts"></div>
+            <div id="cd-remaining-preview" style="font-size:11.5px;color:var(--text-muted);margin-top:6px"></div>
+          </div>
+
+          <!-- Payment Method -->
+          <div class="mb-3">
+            <label class="form-label" style="font-weight:600;font-size:13px">Payment Method *</label>
+            <select class="form-control-it" id="cd-payment-method">
+              <option value="Cash" selected>💵 Cash</option>
+              <option value="UPI">📱 UPI (Google Pay / PhonePe / Paytm)</option>
+              <option value="Card">💳 Card (Debit / Credit)</option>
+              <option value="Bank Transfer">🏦 Bank Transfer (NEFT / IMPS)</option>
+              <option value="Cheque">📑 Cheque</option>
+            </select>
+          </div>
+
+          <!-- Payment Date -->
+          <div class="mb-3">
+            <label class="form-label" style="font-weight:600;font-size:13px">Payment Date *</label>
+            <input type="date" class="form-control-it" id="cd-payment-date" required>
+          </div>
+
+          <!-- Notes / Remarks -->
+          <div class="mb-3">
+            <label class="form-label" style="font-weight:600;font-size:13px">Notes / Reference (Optional)</label>
+            <input type="text" class="form-control-it" id="cd-notes" placeholder="e.g. Transaction ID, UTR, or remark...">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer" style="background:#f8fafc;display:flex;justify-content:space-between">
+        <button type="button" class="btn-ghost" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn-primary-it" style="background:#059669;border-color:#059669" id="btn-submit-clear-due" onclick="submitClearDue()">
+          <i class="bi bi-check2-circle"></i> Confirm &amp; Record Payment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── DASHBOARD DETAIL MODAL (FOR ALL KPI MODULES) ────────────── -->
+<div class="modal fade" id="dashboard-detail-modal" tabindex="-1" aria-labelledby="dashboard-detail-modal-title" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" id="dashboard-detail-modal-header" style="background:linear-gradient(135deg, #1e293b, #0f172a);border-bottom:1px solid rgba(255,255,255,0.1)">
+        <div>
+          <h5 class="modal-title" id="dashboard-detail-modal-title" style="display:flex;align-items:center;gap:8px;color:#fff">
+            <!-- Icon & Title populated dynamically -->
+          </h5>
+          <div style="font-size:12px;color:#94a3b8;margin-top:2px" id="dashboard-detail-modal-subtitle"></div>
+        </div>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" style="background:#f8fafc;padding:20px" id="dashboard-detail-modal-body">
+        <!-- Content populated dynamically -->
+      </div>
+      <div class="modal-footer" id="dashboard-detail-modal-footer" style="background:#fff;display:flex;justify-content:space-between">
+        <!-- Action buttons populated dynamically -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── GLOBAL SALE INVOICE PREVIEW MODAL ───────────────────────── -->
+<div class="modal fade" id="view-sale-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background:linear-gradient(135deg, #1e293b, #0f172a);border-bottom:1px solid rgba(255,255,255,0.1)">
+        <h5 class="modal-title" style="color:#fff;display:flex;align-items:center;gap:8px"><i class="bi bi-receipt text-primary"></i> Invoice Preview</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="view-sale-body" style="padding:22px;background:#f8fafc"></div>
+      <div class="modal-footer" style="background:#fff;display:flex;justify-content:space-between">
+        <button type="button" class="btn-ghost" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn-primary-it" id="btn-print-sale"><i class="bi bi-printer"></i> Print</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── GLOBAL PURCHASE ORDER PREVIEW MODAL ─────────────────────── -->
+<div class="modal fade" id="view-purchase-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background:linear-gradient(135deg, #1e293b, #0f172a);border-bottom:1px solid rgba(255,255,255,0.1)">
+        <h5 class="modal-title" style="color:#fff;display:flex;align-items:center;gap:8px"><i class="bi bi-eye text-warning"></i> Purchase Details</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="view-purchase-body" style="padding:22px;background:#f8fafc"></div>
+      <div class="modal-footer" style="background:#fff;display:flex;justify-content:space-between">
+        <button type="button" class="btn-ghost" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn-primary-it" id="btn-print-purchase"><i class="bi bi-printer"></i> Print</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── GLOBAL SALES RETURN RECEIPT PREVIEW MODAL ────────────────── -->
+<div class="modal fade" id="view-return-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header" style="background:linear-gradient(135deg, #1e293b, #0f172a);border-bottom:1px solid rgba(255,255,255,0.1)">
+        <h5 class="modal-title" style="color:#fff;display:flex;align-items:center;gap:8px"><i class="bi bi-receipt text-danger"></i> Sales Return Receipt / Credit Note</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="view-return-body" style="padding:22px;background:#f8fafc"></div>
+      <div class="modal-footer" style="background:#fff;display:flex;justify-content:space-between">
+        <button type="button" class="btn-ghost" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn-primary-it" id="btn-print-return"><i class="bi bi-printer"></i> Print Receipt</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Toast container (created dynamically) -->
 
 <!-- Chart.js (Local with CDN fallback) -->
@@ -222,6 +436,7 @@
 <script src="assets/js/billing.js"></script>
 <script src="assets/js/purchases.js"></script>
 <script src="assets/js/inventory.js"></script>
+<script src="assets/js/returns.js"></script>
 <script src="assets/js/reports.js"></script>
 <script src="assets/js/remaining.js"></script>
 

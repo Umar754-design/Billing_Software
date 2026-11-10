@@ -9,6 +9,7 @@
   .kpi-grid { grid-template-columns: repeat(2, 1fr); }
   .sections-grid { grid-template-columns: 1fr; }
   .sections-grid-3 { grid-template-columns: 1fr 1fr; }
+  .dashboard-activity-grid { grid-template-columns: 1fr 1fr; }
 
   .pos-layout { grid-template-columns: 1fr; }
   .cart-panel { position: static; max-height: none; }
@@ -60,6 +61,7 @@
   /* Sections */
   .sections-grid    { grid-template-columns: 1fr; }
   .sections-grid-3  { grid-template-columns: 1fr; }
+  .dashboard-activity-grid { grid-template-columns: 1fr; }
 
   /* Topbar */
   .topbar { padding: 0 16px; gap: 10px; }
@@ -117,6 +119,7 @@
   .kpi-card { padding: 16px; }
   .products-grid { grid-template-columns: 1fr; }
   .sections-grid-3 { grid-template-columns: 1fr; }
+  .dashboard-activity-grid { grid-template-columns: 1fr; }
   .cart-actions { flex-direction: column; }
   .payment-row { flex-direction: column; }
   .amount-row { flex-direction: column; }

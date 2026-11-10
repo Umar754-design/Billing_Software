@@ -1,6 +1,6 @@
 /* ============================================================
    INFINITY TRADERS — Print CSS
-   Only active during browser printing
+   Optimized for Shreyans POS SRS810-15 (80mm Thermal Receipt)
    ============================================================ */
 
 @media screen {
@@ -26,203 +26,323 @@
   .btn-ghost,
   .demo-banner,
   .placeholder-banner,
+  .print-top-toolbar,
   button {
     display: none !important;
   }
 
   body {
     background: #fff !important;
-    color: #111 !important;
-    font-family: 'Inter', Arial, sans-serif !important;
+    color: #000 !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Courier New", monospace !important;
     margin: 0 !important;
     padding: 0 !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
 
-  /* 2. Show the dedicated print mount container */
+  /* 2. Show the dedicated print mount container (80mm POS Thermal) */
   #print-mount {
     display: block !important;
     position: static !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 8mm 6mm !important;
+    width: 80mm !important;
+    max-width: 80mm !important;
+    margin: 0 auto !important;
+    padding: 2mm 3mm 8mm 3mm !important;
     background: #fff !important;
+    box-sizing: border-box !important;
   }
 
+  /* Universal thermal receipt styling (80mm Roll Default for POS SRS810-15) */
+  .invoice-container,
   #print-mount .invoice-container {
+    width: 76mm !important;
+    max-width: 80mm !important;
+    margin: 0 auto !important;
+    padding: 2mm 1mm 10mm 1mm !important;
     border: none !important;
     box-shadow: none !important;
-    padding: 0 !important;
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 11px !important;
+    line-height: 1.35 !important;
     page-break-after: avoid;
-    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
+  .invoice-header,
   #print-mount .invoice-header {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: flex-start !important;
-    margin-bottom: 20px !important;
-    border-bottom: 2px solid #2457D6 !important;
-    padding-bottom: 12px !important;
+    display: block !important;
+    text-align: center !important;
+    margin-bottom: 6px !important;
+    border-bottom: none !important;
+    padding-bottom: 0 !important;
   }
 
+  .invoice-company,
+  #print-mount .invoice-company {
+    text-align: center !important;
+  }
+
+  .invoice-company h2,
   #print-mount .invoice-company h2 {
-    font-size: 24px !important;
+    font-size: 16px !important;
     font-weight: 800 !important;
-    color: #2457D6 !important;
-    margin-bottom: 4px !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    text-transform: uppercase !important;
+    color: #000 !important;
+    margin: 0 0 3px 0 !important;
+    letter-spacing: 0.5px !important;
   }
 
+  .invoice-company p,
   #print-mount .invoice-company p {
-    font-size: 11.5px !important;
-    color: #444 !important;
-    line-height: 1.5 !important;
+    font-size: 10.5px !important;
+    color: #111 !important;
+    line-height: 1.35 !important;
     margin: 0 !important;
   }
 
+  .invoice-meta,
   #print-mount .invoice-meta {
-    text-align: right !important;
+    text-align: center !important;
+    margin-top: 6px !important;
+    padding-top: 5px !important;
+    border-top: 1px dashed #000 !important;
   }
 
+  .invoice-meta h3,
   #print-mount .invoice-meta h3 {
-    font-size: 26px !important;
+    font-size: 13px !important;
     font-weight: 800 !important;
-    color: #14213D !important;
+    color: #000 !important;
     margin: 0 0 4px 0 !important;
-    letter-spacing: -0.5px !important;
+    letter-spacing: 1px !important;
   }
 
+  .invoice-meta p,
   #print-mount .invoice-meta p {
-    font-size: 12px !important;
-    color: #333 !important;
+    font-size: 11px !important;
+    color: #000 !important;
     margin: 2px 0 !important;
   }
 
+  .invoice-meta .invoice-no,
   #print-mount .invoice-meta .invoice-no {
-    color: #2457D6 !important;
+    color: #000 !important;
     font-weight: 700 !important;
   }
 
+  .invoice-divider,
   #print-mount .invoice-divider {
-    display: none !important;
+    display: block !important;
+    border: none !important;
+    border-top: 1px dashed #000 !important;
+    margin: 6px 0 !important;
   }
 
+  .invoice-parties,
   #print-mount .invoice-parties {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr !important;
-    gap: 20px !important;
-    margin: 16px 0 !important;
-    padding: 12px 14px !important;
-    background: #f8fafc !important;
-    border: 1px solid #e2e8f0 !important;
-    border-radius: 6px !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    display: block !important;
+    margin: 6px 0 !important;
+    padding: 4px 0 !important;
+    background: transparent !important;
+    border: none !important;
+    border-top: 1px dashed #000 !important;
+    border-bottom: 1px dashed #000 !important;
+    border-radius: 0 !important;
   }
 
-  #print-mount .invoice-party h5 {
+  .invoice-parties .invoice-party:last-child,
+  #print-mount .invoice-parties .invoice-party:last-child {
+    display: none !important; /* Bill From is already in the header */
+  }
+
+  .invoice-party,
+  #print-mount .invoice-party {
     font-size: 11px !important;
-    font-weight: 700 !important;
-    color: #14213D !important;
-    margin-bottom: 5px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.8px !important;
+    color: #000 !important;
+    line-height: 1.35 !important;
   }
 
+  .invoice-party h5,
+  #print-mount .invoice-party h5 {
+    font-size: 10px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    margin: 0 0 2px 0 !important;
+    color: #000 !important;
+  }
+
+  .invoice-party p,
   #print-mount .invoice-party p {
-    font-size: 12px !important;
-    line-height: 1.5 !important;
-    color: #222 !important;
+    font-size: 11px !important;
+    color: #000 !important;
     margin: 0 !important;
   }
 
+  .invoice-customer-addr,
   #print-mount .invoice-customer-addr {
-    font-size: 11.5px !important;
-    color: #333 !important;
-    display: inline-block !important;
+    font-size: 10.5px !important;
+    color: #222 !important;
+    display: block !important;
     margin-top: 2px !important;
   }
 
+  /* Table styling for 80mm roll */
+  .invoice-items-table,
   #print-mount .invoice-items-table {
     width: 100% !important;
     border-collapse: collapse !important;
-    margin: 18px 0 !important;
+    margin: 6px 0 !important;
   }
 
+  .invoice-items-table th,
   #print-mount .invoice-items-table th {
-    background: #14213D !important;
-    color: #ffffff !important;
+    background: transparent !important;
+    color: #000 !important;
     font-weight: 700 !important;
-    font-size: 11.5px !important;
-    padding: 8px 10px !important;
-    border: 1px solid #14213D !important;
+    font-size: 10.5px !important;
+    padding: 4px 2px !important;
+    border: none !important;
+    border-top: 1px dashed #000 !important;
+    border-bottom: 1px dashed #000 !important;
     text-align: left !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    text-transform: uppercase !important;
   }
 
+  .invoice-items-table th.col-hide-thermal,
+  .invoice-items-table td.col-hide-thermal,
+  #print-mount .invoice-items-table th.col-hide-thermal,
+  #print-mount .invoice-items-table td.col-hide-thermal {
+    display: none !important;
+  }
+
+  .invoice-items-table th.col-qty,
+  .invoice-items-table td.col-qty,
+  #print-mount .invoice-items-table th.col-qty,
+  #print-mount .invoice-items-table td.col-qty {
+    text-align: center !important;
+    width: 15% !important;
+  }
+
+  .invoice-items-table th.col-rate,
+  .invoice-items-table td.col-rate,
+  #print-mount .invoice-items-table th.col-rate,
+  #print-mount .invoice-items-table td.col-rate {
+    text-align: right !important;
+    width: 22% !important;
+  }
+
+  .invoice-items-table th.col-total,
+  .invoice-items-table td.col-total,
+  .invoice-items-table th:last-child,
+  .invoice-items-table td:last-child,
   #print-mount .invoice-items-table th:last-child,
   #print-mount .invoice-items-table td:last-child {
     text-align: right !important;
+    width: 24% !important;
   }
 
+  .invoice-items-table td,
   #print-mount .invoice-items-table td {
-    padding: 8px 10px !important;
-    border: 1px solid #e2e8f0 !important;
-    font-size: 12px !important;
-    color: #111 !important;
+    padding: 4px 2px !important;
+    border: none !important;
+    border-bottom: 1px dotted #ccc !important;
+    font-size: 11px !important;
+    color: #000 !important;
+    vertical-align: top !important;
   }
 
+  .invoice-items-table tr:nth-child(even) td,
   #print-mount .invoice-items-table tr:nth-child(even) td {
-    background: #f8fafc !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    background: transparent !important;
   }
 
+  .item-thermal-meta,
+  #print-mount .item-thermal-meta {
+    display: block !important;
+    font-size: 9.5px !important;
+    color: #333 !important;
+    font-weight: 500 !important;
+    margin-top: 1px !important;
+  }
+
+  .invoice-totals,
   #print-mount .invoice-totals {
     display: flex !important;
     flex-direction: column !important;
-    align-items: flex-end !important;
-    margin-top: 10px !important;
+    align-items: stretch !important;
+    margin-top: 6px !important;
+    padding-top: 6px !important;
+    border-top: 1px dashed #000 !important;
   }
 
+  .invoice-totals .total-row,
   #print-mount .invoice-totals .total-row {
     display: flex !important;
     justify-content: space-between !important;
-    width: 270px !important;
-    padding: 3px 0 !important;
-    font-size: 12.5px !important;
-    color: #222 !important;
+    width: 100% !important;
+    padding: 2px 0 !important;
+    font-size: 11.5px !important;
+    color: #000 !important;
   }
 
+  .invoice-totals .total-row.grand,
   #print-mount .invoice-totals .total-row.grand {
-    border-top: 2px solid #2457D6 !important;
-    padding-top: 6px !important;
-    margin-top: 4px !important;
+    border-top: 1px dashed #000 !important;
+    border-bottom: 1px dashed #000 !important;
+    padding: 5px 0 !important;
+    margin: 4px 0 !important;
     font-weight: 800 !important;
-    font-size: 15px !important;
-    color: #2457D6 !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+    font-size: 14.5px !important;
+    color: #000 !important;
   }
 
+  .thermal-barcode-box {
+    display: block !important;
+    text-align: center !important;
+    margin: 8px 0 4px 0 !important;
+    padding-top: 6px !important;
+    border-top: 1px dashed #000 !important;
+  }
+
+  .thermal-barcode-box svg {
+    max-width: 65mm !important;
+    height: 32px !important;
+    display: inline-block !important;
+  }
+
+  .invoice-footer-note,
   #print-mount .invoice-footer-note {
     text-align: center !important;
-    margin-top: 24px !important;
-    padding-top: 12px !important;
-    border-top: 1px dashed #cbd5e1 !important;
-    font-size: 11px !important;
-    color: #64748b !important;
+    margin-top: 8px !important;
+    padding-top: 6px !important;
+    border-top: 1px dashed #000 !important;
+    font-size: 10px !important;
+    color: #000 !important;
+    line-height: 1.35 !important;
+  }
+
+  .thermal-terminal-tag {
+    font-size: 9px !important;
+    color: #444 !important;
+    margin-top: 4px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+  }
+
+  /* Cut clearance at bottom of roll */
+  .thermal-cut-space {
+    height: 8mm !important;
+    display: block !important;
   }
 
   table { page-break-inside: avoid; }
   a { text-decoration: none; color: inherit; }
 
+  /* Default Page Size: 80mm continuous thermal roll for POS SRS810-15 */
   @page {
-    margin: 10mm;
-    size: A4 portrait;
+    margin: 0;
+    size: 80mm auto;
   }
 }
