@@ -1,3 +1,4 @@
+# Billing_Software
 # Infinity Traders — Retail Billing & Inventory Management Software
 
 A full-stack, production-ready Retail Billing, Point of Sale (POS), Inventory, Purchases, Customer Returns, and Supplier Management Web Application with a PHP & MySQL backend.
