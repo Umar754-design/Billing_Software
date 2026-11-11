@@ -23,8 +23,10 @@ if ($method === 'GET') {
     $params = [];
 
     if (!empty($search)) {
-        $where[] = "(s.invoice_no LIKE ? OR s.customer_name LIKE ? OR s.customer_phone LIKE ? OR i.product_name LIKE ? OR i.sku LIKE ?)";
+        $where[] = "(s.invoice_no LIKE ? OR s.customer_name LIKE ? OR s.customer_phone LIKE ? OR s.customer_address LIKE ? OR c.address LIKE ? OR i.product_name LIKE ? OR i.sku LIKE ?)";
         $wildcard = "%$search%";
+        $params[] = $wildcard;
+        $params[] = $wildcard;
         $params[] = $wildcard;
         $params[] = $wildcard;
         $params[] = $wildcard;
@@ -58,6 +60,7 @@ if ($method === 'GET') {
     $countStmt = $db->prepare("
         SELECT COUNT(DISTINCT s.id)
         FROM sales_invoices s
+        LEFT JOIN customers c ON s.customer_id = c.id
         LEFT JOIN sales_invoice_items i ON s.id = i.invoice_id
         WHERE $whereSql
     ");
@@ -67,9 +70,11 @@ if ($method === 'GET') {
     $query = "
         SELECT
             s.*,
+            COALESCE(NULLIF(TRIM(s.customer_address), ''), c.address, '') AS customer_address,
             COUNT(DISTINCT i.id) AS total_items,
             COALESCE(SUM(i.qty), 0) AS total_qty
         FROM sales_invoices s
+        LEFT JOIN customers c ON s.customer_id = c.id
         LEFT JOIN sales_invoice_items i ON s.id = i.invoice_id
         WHERE $whereSql
         GROUP BY s.id

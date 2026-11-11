@@ -1125,6 +1125,7 @@ async function renderSalesHistory(container) {
       customerId: s.customer_id || 0,
       customer: s.customer_name || 'Walk-in Customer',
       customerPhone: s.customer_phone || '',
+      customerAddress: s.customer_address || '',
       itemsCount: s.total_items || 0,
       items: s.items || [],
       productsSummary: s.products_summary || '',
@@ -1174,7 +1175,7 @@ async function renderSalesHistory(container) {
         <table class="it-table">
           <thead>
             <tr>
-              <th>Invoice No.</th><th>Date</th><th>Customer</th><th style="min-width:240px">Products Sold</th>
+              <th>Invoice No.</th><th>Date</th><th>Customer</th><th>Address</th><th style="min-width:240px">Products Sold</th>
               <th>Subtotal</th><th>Discount</th><th>GST</th><th>Total</th>
               <th>Payment</th><th>Status</th><th>Actions</th>
             </tr>
@@ -1212,10 +1213,11 @@ function getFilteredSH() {
     const sInv = (s.invoiceNo || '').toLowerCase();
     const sCust = (s.customer || '').toLowerCase();
     const sPhone = (s.customerPhone || '').toLowerCase();
+    const sAddr = (s.customerAddress || '').toLowerCase();
     const sProds = (s.productsSummary || '').toLowerCase();
     if (shFilters.search) {
       const q = shFilters.search;
-      if (!sInv.includes(q) && !sCust.includes(q) && !sPhone.includes(q) && !sProds.includes(q)) return false;
+      if (!sInv.includes(q) && !sCust.includes(q) && !sPhone.includes(q) && !sAddr.includes(q) && !sProds.includes(q)) return false;
     }
     if (shFilters.dateFrom && s.date < shFilters.dateFrom) return false;
     if (shFilters.dateTo   && s.date > shFilters.dateTo) return false;
@@ -1238,7 +1240,7 @@ function renderSHTable() {
   if (showEl) showEl.textContent = `Showing ${paged.length} of ${all.length} invoices`;
 
   if (!paged.length) {
-    tbody.innerHTML = `<tr><td colspan="11"><div class="empty-state" style="padding:40px"><i class="bi bi-receipt"></i><h4>No Sales Found</h4><p>Create an invoice from New Billing.</p></div></td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="12"><div class="empty-state" style="padding:40px"><i class="bi bi-receipt"></i><h4>No Sales Found</h4><p>Create an invoice from New Billing.</p></div></td></tr>`;
   } else {
     tbody.innerHTML = paged.map(s => `
       <tr>
@@ -1249,6 +1251,9 @@ function renderSHTable() {
             ${sanitizeHTML(s.customer)}
           </a>
           <br><small style="color:var(--text-muted)">${sanitizeHTML(s.customerPhone||'—')}</small>
+        </td>
+        <td>
+          ${s.customerAddress ? `<span style="font-size:12px;color:var(--text-dark)">${sanitizeHTML(s.customerAddress)}</span>` : '<span style="color:var(--text-muted)">—</span>'}
         </td>
         <td style="min-width:240px;max-width:340px;vertical-align:top">
           ${(s.items && s.items.length) ? `
@@ -1466,12 +1471,13 @@ async function printSaleInvoice(id) {
 function exportSHCSV() {
   const data = getFilteredSH();
   exportCSV('sales_history.csv',
-    ['Invoice No.','Date','Customer','Phone','Products Sold','Subtotal','Discount','GST Enabled','GST Amount','Grand Total','Amount Paid','Balance','Payment Method','Status'],
+    ['Invoice No.','Date','Customer','Phone','Address','Products Sold','Subtotal','Discount','GST Enabled','GST Amount','Grand Total','Amount Paid','Balance','Payment Method','Status'],
     data.map(s => [
       s.invoiceNo,
       s.date,
       s.customer,
       s.customerPhone||'',
+      s.customerAddress||'',
       s.productsSummary || (s.items||[]).map(it => `${it.product_name}${it.size ? ' ('+it.size+')':''} x${it.qty}`).join('; '),
       s.subtotal,
       s.discount,
