@@ -51,7 +51,7 @@ async function renderSuppliers(container) {
       <div class="table-wrapper">
         <table class="it-table">
           <thead>
-            <tr><th>Supplier Name</th><th>Contact Person</th><th>Phone</th><th>Email</th><th>Due Amount (₹)</th><th>Status</th><th>Actions</th></tr>
+            <tr><th>Supplier Name</th><th>Address</th><th>Phone</th><th>Email</th><th>Due Amount (₹)</th><th>Status</th><th>Actions</th></tr>
           </thead>
           <tbody id="sup-tbody"></tbody>
         </table>
@@ -117,7 +117,7 @@ function renderSupplierTable(query, statusFilter) {
   const tbody = document.getElementById('sup-tbody');
   if (!tbody) return;
   let data = AppState.suppliers;
-  if (query)        data = data.filter(s => s.name.toLowerCase().includes(query) || (s.contactPerson && s.contactPerson.toLowerCase().includes(query)));
+  if (query)        data = data.filter(s => s.name.toLowerCase().includes(query) || (s.address && s.address.toLowerCase().includes(query)) || (s.phone && s.phone.includes(query)) || (s.contactPerson && s.contactPerson.toLowerCase().includes(query)));
   if (statusFilter) data = data.filter(s => s.status === statusFilter);
 
   if (!data.length) {
@@ -126,7 +126,7 @@ function renderSupplierTable(query, statusFilter) {
   }
   tbody.innerHTML = data.map(s => `<tr>
     <td><strong>${sanitizeHTML(s.name)}</strong></td>
-    <td>${sanitizeHTML(s.contactPerson || '—')}</td>
+    <td>${sanitizeHTML(s.address || '—')}</td>
     <td>${sanitizeHTML(s.phone || '—')}</td>
     <td>${sanitizeHTML(s.email || '—')}</td>
     <td class="${s.outstanding > 0 ? 'stock-out' : 'stock-ok'}" style="font-weight:${s.outstanding>0?'700':'400'}">${formatINR(s.outstanding)}</td>

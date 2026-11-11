@@ -18,8 +18,9 @@ if ($method === 'GET') {
     $params = [];
 
     if (!empty($search)) {
-        $where[] = "(name LIKE ? OR contact_person LIKE ? OR phone LIKE ? OR gstin LIKE ?)";
+        $where[] = "(name LIKE ? OR contact_person LIKE ? OR phone LIKE ? OR address LIKE ? OR gstin LIKE ?)";
         $wildcard = "%$search%";
+        $params[] = $wildcard;
         $params[] = $wildcard;
         $params[] = $wildcard;
         $params[] = $wildcard;
